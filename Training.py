@@ -205,6 +205,9 @@ score=sum/div
 
 print(score)
 
+with open('model.pkl','wb') as f:
+  pickle.dump(xgb_clf,f)
+
 
 counts = np.bincount(y_pred, minlength=10)
 
