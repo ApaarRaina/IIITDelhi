@@ -13,6 +13,8 @@ Time = [now.strftime("%Y-%m-%d"), now.strftime("%H:%M:%S")]
 df=pd.read_csv('Processed_crime.csv')
 
 train=df.iloc[:,:-1]
+train.drop(columns=['Unnamed: 0'],inplace=True)
+
 scaler=StandardScaler()
 
 scaler.fit_transform(train)
@@ -24,22 +26,23 @@ with open ("model.pkl","rb") as f:
 
 app=Flask(__name__)
 
-@app.route('/classify_route',methods=['POST'])
+
+@app.route('/classify_route', methods=['POST'])
 def predict():
+    data = request.get_json()
 
-    data=request.get_json()
+    # Initialize an empty list to store results for all routes
+    results = []
 
+    # Assuming data is a list of routes
     for route in data:
-        location_list=[]
-        for i in range(len(route)):
-            l = []
-            for key in route[i]:
-                if key == 'lat' or key == 'lng':
-                    l.append(float(route[i][key]))
-
+        location_list = []
+        for point in route:
+            l = [float(point['lat']), float(point['lng'])]
             location_list.append(l)
 
-        new_df = pd.DataFrame(location_list)
+        # Create DataFrame with proper column names
+        new_df = pd.DataFrame(location_list, columns=[0, 1])
         new_df['Date'] = Time[0]
         new_df['Time'] = Time[1]
         new_df['Date'] = pd.to_datetime(new_df['Date'])
@@ -53,20 +56,25 @@ def predict():
         new_df[4] = new_df['Time'].apply(lambda x: x.minute)
         new_df.drop(columns=['Date', 'Time', 'YEAR', 'DAY'], inplace=True)
 
-        new_df_values = scaler.transform(new_df)
+        # Make sure columns match what the model was trained on
+        new_df = new_df[[0, 1, 2, 3, 4]]  # Ensure column order
 
+        new_df_values = scaler.transform(new_df)
         y_pred = xgb_clf.predict(new_df_values)
 
-
-        sum = np.sum(y_pred)
-
+        sum_val = np.sum(y_pred)
         div = len(y_pred) * 10
+        score = float(sum_val / div)
 
-        score = sum / div
+        results.append(score)
 
-        return score
+    # Return the first result if there's only one route, or all results
+    if len(results) == 1:
+        return jsonify(results[0])
+    else:
+        return jsonify(results)
 
 
-app.run(host="0.0.0.0",port=5000)
+app.run(debug=True)
 
 
