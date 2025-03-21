@@ -122,14 +122,14 @@ score=np.array(df['Crime_Severity_Score'])
 print(score)
 print(np.bincount(score))
 
-df.loc[(df['Crime_Severity_Score'] >= 0) & (df['Crime_Severity_Score'] < 15), 'Crime_Severity_Label'] = 0
-df.loc[(df['Crime_Severity_Score'] >= 15) & (df['Crime_Severity_Score'] < 30), 'Crime_Severity_Label'] = 1
-df.loc[(df['Crime_Severity_Score'] >= 30) & (df['Crime_Severity_Score'] < 45), 'Crime_Severity_Label'] = 2
-df.loc[(df['Crime_Severity_Score'] >= 45) & (df['Crime_Severity_Score'] < 60), 'Crime_Severity_Label'] = 3
-df.loc[(df['Crime_Severity_Score'] >= 60) & (df['Crime_Severity_Score'] < 80), 'Crime_Severity_Label'] = 4
-df.loc[(df['Crime_Severity_Score'] >= 80) & (df['Crime_Severity_Score'] < 100), 'Crime_Severity_Label'] = 5
-df.loc[(df['Crime_Severity_Score'] >= 100) & (df['Crime_Severity_Score'] < 125), 'Crime_Severity_Label'] = 6
-df.loc[(df['Crime_Severity_Score'] >= 125) & (df['Crime_Severity_Score'] < 150), 'Crime_Severity_Label'] = 7
+df.loc[(df['Crime_Severity_Score'] >= 0) & (df['Crime_Severity_Score'] < 10), 'Crime_Severity_Label'] = 0
+df.loc[(df['Crime_Severity_Score'] >= 10) & (df['Crime_Severity_Score'] < 30), 'Crime_Severity_Label'] = 1
+df.loc[(df['Crime_Severity_Score'] >= 30) & (df['Crime_Severity_Score'] < 70), 'Crime_Severity_Label'] = 2
+df.loc[(df['Crime_Severity_Score'] >= 70) & (df['Crime_Severity_Score'] < 90), 'Crime_Severity_Label'] = 3
+df.loc[(df['Crime_Severity_Score'] >= 90) & (df['Crime_Severity_Score'] < 120), 'Crime_Severity_Label'] = 4
+df.loc[(df['Crime_Severity_Score'] >= 120) & (df['Crime_Severity_Score'] < 100), 'Crime_Severity_Label'] = 5
+df.loc[(df['Crime_Severity_Score'] >= 100) & (df['Crime_Severity_Score'] < 130), 'Crime_Severity_Label'] = 6
+df.loc[(df['Crime_Severity_Score'] >= 130) & (df['Crime_Severity_Score'] < 150), 'Crime_Severity_Label'] = 7
 df.loc[(df['Crime_Severity_Score'] >= 150) & (df['Crime_Severity_Score'] < 180), 'Crime_Severity_Label'] = 8
 df.loc[(df['Crime_Severity_Score'] >= 180), 'Crime_Severity_Label'] = 9
 
