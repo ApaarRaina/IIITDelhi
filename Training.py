@@ -32,8 +32,8 @@ X_test=pd.DataFrame(X_test)
 xgb_clf = xgb.XGBClassifier(
     objective="multi:softmax",  # Multiclass classification
     num_class=10,  # Number of classes (0 to 4)
-    n_estimators=200,  # Number of trees
-    max_depth=8,  # Depth of trees
+    n_estimators=250,  # Number of trees
+    max_depth=10,  # Depth of trees
     learning_rate=0.1,  # Step size
     subsample=0.7,  # Avoid overfitting
     colsample_bytree=0.7,
@@ -106,28 +106,58 @@ route=[
   },
   {
     "idx": 80,
-    "lat": "41.88839",
-    "lng": "-87.62443"
+    "lat": "41.88820",
+    "lng": "-87.62366"
   },
   {
     "idx": 90,
-    "lat": "41.89008",
-    "lng": "-87.62404"
+    "lat": "41.88784",
+    "lng": "-87.62090"
   },
   {
     "idx": 100,
-    "lat": "41.89175",
-    "lng": "-87.62410"
+    "lat": "41.88756",
+    "lng": "-87.61900"
   },
   {
     "idx": 110,
-    "lat": "41.89257",
-    "lng": "-87.62271"
+    "lat": "41.88682",
+    "lng": "-87.61969"
   },
   {
     "idx": 120,
-    "lat": "41.89173",
-    "lng": "-87.62392"
+    "lat": "41.88670",
+    "lng": "-87.62051"
+  },
+  {
+    "idx": 130,
+    "lat": "41.88686",
+    "lng": "-87.62094"
+  },
+  {
+    "idx": 140,
+    "lat": "41.88680",
+    "lng": "-87.62067"
+  },
+  {
+    "idx": 150,
+    "lat": "41.88856",
+    "lng": "-87.62048"
+  },
+  {
+    "idx": 160,
+    "lat": "41.89070",
+    "lng": "-87.62023"
+  },
+  {
+    "idx": 170,
+    "lat": "41.89180",
+    "lng": "-87.62024"
+  },
+  {
+    "idx": 180,
+    "lat": "41.89174",
+    "lng": "-87.62378"
   }
 ]
 
@@ -180,5 +210,3 @@ counts = np.bincount(y_pred, minlength=10)
 
 print(counts)
 
-with open('model.pkl','wb') as f:
-    pickle.dump(xgb_clf,f)
