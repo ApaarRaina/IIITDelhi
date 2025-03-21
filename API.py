@@ -53,20 +53,20 @@ def predict():
         new_df[4] = new_df['Time'].apply(lambda x: x.minute)
         new_df.drop(columns=['Date', 'Time', 'YEAR', 'DAY'], inplace=True)
 
-        print(new_df)
-
         new_df_values = scaler.transform(new_df)
 
         y_pred = xgb_clf.predict(new_df_values)
 
-        print(y_pred)
 
-        counts = np.bincount(y_pred, minlength=10)
+        sum = np.sum(y_pred)
+
+        div = len(y_pred) * 10
+
+        score = sum / div
+
+        return score
 
 
-        print(counts)
-
-        return counts
+app.run(host="0.0.0.0",port=5000)
 
 
-app.run()
