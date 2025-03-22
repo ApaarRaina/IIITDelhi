@@ -87,7 +87,7 @@ coords = df[['X COORDINATE', 'Y COORDINATE']].values
 tree = cKDTree(coords)
 
 # Find all nearby crime indices at once (reduces redundant queries)
-all_nearby_indices = tree.query_ball_point(coords, 350)
+all_nearby_indices = tree.query_ball_point(coords, 75)
 
 # Convert DATE to NumPy array for fast comparisons
 dates = df['DATE'].to_numpy()
@@ -125,7 +125,7 @@ print(np.bincount(score))
 
 
 # Adjusting bin range to include max value
-bins = [0, 7, 11, 15, 40, 65, 95, 130, 190, 250, 402]
+bins = [0, 10, 20, 35, 40, 50, 60, 70, 80, 90, 100]
 labels = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 # Categorizing crime severity
@@ -162,7 +162,7 @@ df.drop(columns=['DATE'],inplace=True)
 corr_matrix=df.corr()
 print(corr_matrix)
 
-#df.drop(columns=['YEAR'],inplace=True)
+df.drop(columns=['YEAR'],inplace=True)
 
 df.drop(columns=['DAY'],inplace=True)
 

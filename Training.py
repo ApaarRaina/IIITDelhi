@@ -10,7 +10,7 @@ df = pd.read_csv('processed_crime.csv')
 
 
 # Split into train and test sets
-train, test = train_test_split(df, test_size=0.2, random_state=42)
+train, test = train_test_split(df, test_size=0.1, random_state=42)
 X_train, y_train = train.iloc[:, :-1], train.iloc[:, -1]
 X_test, y_test = test.iloc[:, :-1], test.iloc[:, -1]
 
@@ -23,7 +23,7 @@ X_test.drop(columns=['Unnamed: 0'], inplace=True)
 xgb_clf = xgb.XGBClassifier(
     objective="multi:softmax",  # Multiclass classification
     num_class=10,
-    n_estimators=300,
+    n_estimators=200,
     max_depth=10,
     learning_rate=0.1,
     subsample=0.8,
@@ -34,7 +34,7 @@ xgb_clf = xgb.XGBClassifier(
 
 xgb_clf.fit(X_train, y_train)
 
-# Make predictions
+
 y_pred_test = xgb_clf.predict(X_test)
 y_pred_train = xgb_clf.predict(X_train)
 
@@ -44,9 +44,6 @@ train_acc = accuracy_score(y_train, y_pred_train)
 print(f"Train Accuracy {train_acc:.4f}")
 print(f"Test Accuracy {test_acc:.4f}")
 
-# Check class distribution in predictions
-print("Predictions:", np.bincount(y_pred_test, minlength=10))
-print("Test:", np.bincount(y_test, minlength=10))
 
 # Route data for new predictions
 route = [
@@ -520,14 +517,13 @@ new_df[3] = new_df['Time'].apply(lambda x: x.hour)
 new_df[4] = new_df['Time'].apply(lambda x: x.minute)
 
 # Drop unnecessary columns
-new_df.drop(columns=['Date', 'Time','DAY'], inplace=True)
+new_df.drop(columns=['Date', 'Time','YEAR','DAY'], inplace=True)
 
 new_df.rename(columns={0:'LATITUDE',1:'LONGITUDE',2:'MONTH',3:'HOUR',4:'MINUTE'},inplace=True)
 
 
 # Make predictions
 y_pred = xgb_clf.predict(new_df)
-print(y_pred)
 
 # Compute crime risk score
 score = np.sum(y_pred) / (len(y_pred))
@@ -536,3 +532,5 @@ print(f"Crime Risk Score: {score:.4f}")
 
 with open('model.pkl','wb') as f:
   pickle.dump(xgb_clf,f)
+
+
